@@ -1003,6 +1003,24 @@
       <div class="calc-inputs">
 
         <div class="calc-field">
+          <label class="calc-label" for="loanPurpose">Loan Purpose</label>
+          <select class="calc-select" id="loanPurpose" onchange="calculate()">
+            <option value="purchase">Purchase</option>
+            <option value="refinance">Refinance</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="loanType">Loan Type</label>
+          <select class="calc-select" id="loanType" onchange="calculate()">
+            <option value="conventional">Conventional</option>
+            <option value="fha">FHA</option>
+            <option value="va">VA</option>
+            <option value="jumbo">Jumbo</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
           <label class="calc-label" for="homePrice">Home Price</label>
           <div class="calc-input-wrap">
             <span class="calc-prefix">$</span>
@@ -1019,6 +1037,28 @@
         </div>
 
         <div class="calc-field">
+          <label class="calc-label" for="occupancy">Occupancy</label>
+          <select class="calc-select" id="occupancy" onchange="calculate()">
+            <option value="primary">Owner Occupied</option>
+            <option value="second">Second Home</option>
+            <option value="investment">Investment Property</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="ficoScore">FICO Credit Score</label>
+          <select class="calc-select" id="ficoScore" onchange="calculate()">
+            <option value="760">760 – 850 (Exceptional)</option>
+            <option value="740">740 – 759 (Very Good)</option>
+            <option value="720">720 – 739 (Good)</option>
+            <option value="700">700 – 719 (Good)</option>
+            <option value="680">680 – 699 (Fair)</option>
+            <option value="660">660 – 679 (Fair)</option>
+            <option value="640">640 – 659 (Below Average)</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
           <label class="calc-label" for="loanTerm">Loan Term</label>
           <select class="calc-select" id="loanTerm" onchange="calculate()">
             <option value="30">30 Years</option>
@@ -1029,14 +1069,6 @@
         </div>
 
         <div class="calc-field">
-          <label class="calc-label" for="interestRate">Interest Rate</label>
-          <div class="calc-input-wrap">
-            <input class="calc-input has-suffix" type="number" id="interestRate" value="6.8" step="0.1" oninput="calculate()">
-            <span class="calc-suffix">%</span>
-          </div>
-        </div>
-
-        <div class="calc-field">
           <label class="calc-label" for="propertyTax">Property Tax (Annual)</label>
           <div class="calc-input-wrap">
             <span class="calc-prefix">$</span>
@@ -1044,46 +1076,42 @@
           </div>
         </div>
 
-        <div class="calc-field">
-          <label class="calc-label" for="homeInsurance">Home Insurance (Annual)</label>
-          <div class="calc-input-wrap">
-            <span class="calc-prefix">$</span>
-            <input class="calc-input has-prefix" type="number" id="homeInsurance" value="1200" oninput="calculate()">
-          </div>
-        </div>
-
       </div>
       <div class="calc-results">
         <div class="calc-result-main">
-          <div class="calc-result-label">Estimated Monthly Payment</div>
-          <div class="calc-result-amount" id="monthlyTotal">$0</div>
-          <div class="calc-result-sub">Principal, interest, taxes & insurance</div>
+          <div class="calc-result-label">Estimated Rate Range</div>
+          <div class="calc-result-amount" id="rateRange">—</div>
+          <div class="calc-result-sub" id="rateNote">Based on your selections</div>
         </div>
         <div class="calc-breakdown">
+          <div class="calc-breakdown-row">
+            <span class="calc-breakdown-key">Monthly Payment (est.)</span>
+            <span class="calc-breakdown-val" id="monthlyTotal">—</span>
+          </div>
           <div class="calc-breakdown-row">
             <span class="calc-breakdown-key">Principal & Interest</span>
             <span class="calc-breakdown-val" id="principalInterest">—</span>
           </div>
           <div class="calc-breakdown-row">
-            <span class="calc-breakdown-key">Property Tax</span>
+            <span class="calc-breakdown-key">Property Tax / mo</span>
             <span class="calc-breakdown-val" id="taxMonthly">—</span>
-          </div>
-          <div class="calc-breakdown-row">
-            <span class="calc-breakdown-key">Home Insurance</span>
-            <span class="calc-breakdown-val" id="insuranceMonthly">—</span>
           </div>
           <div class="calc-breakdown-row">
             <span class="calc-breakdown-key">Loan Amount</span>
             <span class="calc-breakdown-val" id="loanAmount">—</span>
           </div>
           <div class="calc-breakdown-row">
+            <span class="calc-breakdown-key">Down Payment</span>
+            <span class="calc-breakdown-val" id="downPct">—</span>
+          </div>
+          <div class="calc-breakdown-row">
             <span class="calc-breakdown-key">Total Interest Paid</span>
             <span class="calc-breakdown-val" id="totalInterest">—</span>
           </div>
         </div>
-        <p class="calc-disclaimer">Estimates only. Actual rates and payments vary based on credit, lender, and market conditions. Contact Phillip for your personalized rate.</p>
+        <p class="calc-disclaimer">Estimated rate ranges are based on current California market averages and your inputs. Actual rates depend on full credit review, lender, and market conditions at time of application.</p>
         <div class="calc-cta">
-          <a href="https://www.loanfactory.com/phillipla/apply" target="_blank" class="btn-primary">Get Your Actual Rate →</a>
+          <a href="https://www.loanfactory.com/phillipla/apply" target="_blank" class="btn-primary">Get Your Exact Rate →</a>
         </div>
       </div>
     </div>
@@ -1128,17 +1156,66 @@
       return '$' + Math.round(n).toLocaleString('en-US');
     }
 
+    // Base rates by loan type (CA market, April 2026, 30yr)
+    const BASE_RATES = {
+      conventional: 6.75,
+      fha:          6.50,
+      va:           6.25,
+      jumbo:        7.00
+    };
+
+    // FICO adjustments (spread added to base)
+    const FICO_ADJ = {
+      760:  0.00,
+      740:  0.10,
+      720:  0.25,
+      700:  0.40,
+      680:  0.60,
+      660:  0.85,
+      640:  1.20
+    };
+
+    // Occupancy adjustments
+    const OCC_ADJ = {
+      primary:    0.00,
+      second:     0.25,
+      investment: 0.50
+    };
+
+    // Loan purpose adjustments
+    const PURPOSE_ADJ = {
+      purchase:  0.00,
+      refinance: 0.125
+    };
+
+    // Term adjustments (vs 30yr)
+    const TERM_ADJ = {
+      30: 0.00,
+      20: -0.10,
+      15: -0.60,
+      10: -0.75
+    };
+
     function calculate() {
       const price    = parseFloat(document.getElementById('homePrice').value) || 0;
       const down     = parseFloat(document.getElementById('downPayment').value) || 0;
       const years    = parseInt(document.getElementById('loanTerm').value) || 30;
-      const rate     = parseFloat(document.getElementById('interestRate').value) || 0;
       const tax      = parseFloat(document.getElementById('propertyTax').value) || 0;
-      const ins      = parseFloat(document.getElementById('homeInsurance').value) || 0;
+      const loanType = document.getElementById('loanType').value;
+      const fico     = parseInt(document.getElementById('ficoScore').value);
+      const occ      = document.getElementById('occupancy').value;
+      const purpose  = document.getElementById('loanPurpose').value;
+
+      // Estimate rate
+      const base    = BASE_RATES[loanType] || 6.75;
+      const adj     = (FICO_ADJ[fico] || 0) + (OCC_ADJ[occ] || 0) + (PURPOSE_ADJ[purpose] || 0) + (TERM_ADJ[years] || 0);
+      const midRate = base + adj;
+      const loRate  = (midRate - 0.125).toFixed(3);
+      const hiRate  = (midRate + 0.125).toFixed(3);
 
       const principal = Math.max(price - down, 0);
       const months    = years * 12;
-      const mRate     = rate / 100 / 12;
+      const mRate     = midRate / 100 / 12;
 
       let pi = 0;
       if (mRate > 0 && months > 0) {
@@ -1147,17 +1224,18 @@
         pi = principal / months;
       }
 
-      const taxMo  = tax / 12;
-      const insMo  = ins / 12;
-      const total  = pi + taxMo + insMo;
-      const totalInt = (pi * months) - principal;
+      const taxMo   = tax / 12;
+      const total   = pi + taxMo;
+      const totalInt = Math.max((pi * months) - principal, 0);
+      const dpPct   = price > 0 ? ((down / price) * 100).toFixed(1) + '%' : '—';
 
-      document.getElementById('monthlyTotal').textContent     = fmt(total);
-      document.getElementById('principalInterest').textContent = fmt(pi);
-      document.getElementById('taxMonthly').textContent        = fmt(taxMo);
-      document.getElementById('insuranceMonthly').textContent  = fmt(insMo);
-      document.getElementById('loanAmount').textContent        = fmt(principal);
-      document.getElementById('totalInterest').textContent     = fmt(Math.max(totalInt, 0));
+      document.getElementById('rateRange').textContent         = loRate + '% – ' + hiRate + '%';
+      document.getElementById('monthlyTotal').textContent      = fmt(total);
+      document.getElementById('principalInterest').textContent  = fmt(pi);
+      document.getElementById('taxMonthly').textContent         = fmt(taxMo);
+      document.getElementById('loanAmount').textContent         = fmt(principal);
+      document.getElementById('downPct').textContent            = dpPct;
+      document.getElementById('totalInterest').textContent      = fmt(totalInt);
     }
 
     calculate();
