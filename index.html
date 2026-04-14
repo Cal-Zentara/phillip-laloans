@@ -430,7 +430,9 @@
       width: 48px; height: 48px; flex-shrink: 0;
       border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px; font-weight: 500;
+      color: var(--gold); letter-spacing: 1px;
     }
 
     .why-content h3 {
@@ -545,8 +547,10 @@
 
     .cta-contact-item:hover { color: var(--gold); }
 
-    .cta-contact-item span {
-      font-size: 16px; color: var(--gold);
+    .cta-contact-item::before {
+      content: '—';
+      color: var(--gold);
+      margin-right: 6px;
     }
 
     /* ── FOOTER ── */
@@ -725,7 +729,7 @@
       <div class="stat-label">Available for<br>Your Questions</div>
     </div>
     <div class="stat">
-      <div class="stat-num">⭐</div>
+      <div class="stat-num">5★</div>
       <div class="stat-label">Client-First<br>Every Time</div>
     </div>
   </div>
@@ -778,28 +782,28 @@
     </div>
     <div class="why-grid">
       <div class="why-item">
-        <div class="why-icon">⚡</div>
+        <div class="why-icon">01</div>
         <div class="why-content">
           <h3>Fast, Efficient Closings</h3>
           <p>I don't let deals stall. I stay on top of every step so your closing happens on time — no surprises at the finish line.</p>
         </div>
       </div>
       <div class="why-item">
-        <div class="why-icon">📞</div>
+        <div class="why-icon">02</div>
         <div class="why-content">
           <h3>Always Available</h3>
           <p>Questions don't wait for business hours. I'm reachable when you need me — not just during the 9-to-5.</p>
         </div>
       </div>
       <div class="why-item">
-        <div class="why-icon">💰</div>
+        <div class="why-icon">03</div>
         <div class="why-content">
           <h3>Honest, Competitive Pricing</h3>
           <p>No hidden fees, no bait-and-switch. I'll show you exactly what you're getting and why it's the right deal for you.</p>
         </div>
       </div>
       <div class="why-item">
-        <div class="why-icon">🤝</div>
+        <div class="why-icon">04</div>
         <div class="why-content">
           <h3>Attentive Communication</h3>
           <p>I keep you updated at every stage. You'll never be left wondering where your loan stands or what comes next.</p>
@@ -843,13 +847,13 @@
     </div>
     <div class="cta-contact">
       <a href="tel:7147266333" class="cta-contact-item">
-        <span>📞</span> 714-726-6333
+        714-726-6333
       </a>
       <a href="mailto:phillip.la@loanfactory.com" class="cta-contact-item">
-        <span>✉</span> phillip.la@loanfactory.com
+        phillip.la@loanfactory.com
       </a>
       <a href="https://www.instagram.com/phillip.laloans" target="_blank" class="cta-contact-item">
-        <span>📷</span> @phillip.laloans
+        @phillip.laloans
       </a>
     </div>
   </section>
