@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phillip La — Mortgage Loan Officer | California</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #08111e;
+      --navy-mid:   #0f1e33;
+      --navy-light: #1a2e50;
+      --gold:       #c9a24a;
+      --gold-light: #e0bb6a;
+      --gold-pale:  rgba(201,162,74,0.12);
+      --text:       #f0ede6;
+      --text-muted: rgba(240,237,230,0.55);
+      --border:     rgba(201,162,74,0.18);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── Noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(8,17,30,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s ease;
+    }
+
+    .nav-mono {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 3px;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .btn-apply {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-apply:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 120px 64px 80px 80px;
+      position: relative; z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow-line {
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-eyebrow span {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 300; line-height: 1.0;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 400; font-style: italic;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-divider {
+      width: 56px; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 28px;
+    }
+
+    .hero-tagline {
+      font-size: 15px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.75;
+      max-width: 380px; margin-bottom: 44px;
+    }
+
+    .hero-cta-row {
+      display: flex; align-items: center; gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      position: relative; overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: ''; position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.4s ease;
+    }
+
+    .btn-primary:hover::after { left: 100%; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 400;
+      letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Hero Right / Photo ── */
+    .hero-right {
+      position: relative; overflow: hidden;
+    }
+
+    .hero-photo-wrap {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+
+    /* Gold diagonal accent */
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(135deg,
+        var(--navy) 0%,
+        transparent 40%,
+        transparent 100%);
+    }
+
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      top: 15%; left: 10%; right: 10%; bottom: 0;
+      background: linear-gradient(160deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+      clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
+      z-index: 0;
+    }
+
+    .photo-placeholder {
+      position: relative; z-index: 2;
+      width: 72%; max-width: 360px;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, var(--navy-light) 0%, #0a1628 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-top: 2px solid var(--gold);
+      margin-bottom: 0;
+    }
+
+    .photo-initials {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 96px; font-weight: 300;
+      color: var(--gold);
+      opacity: 0.25;
+      line-height: 1;
+      letter-spacing: -4px;
+    }
+
+    .photo-note {
+      position: absolute; bottom: 20px;
+      font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    /* Gold geometric accents */
+    .hero-geo-1 {
+      position: absolute; top: 60px; right: 40px; z-index: 3;
+      width: 80px; height: 80px;
+      border: 1px solid rgba(201,162,74,0.2);
+      transform: rotate(45deg);
+    }
+
+    .hero-geo-2 {
+      position: absolute; bottom: 100px; left: 30px; z-index: 3;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(201,162,74,0.15);
+      transform: rotate(45deg);
+    }
+
+    /* ── NMLS STRIP ── */
+    .nmls-strip {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 80px;
+      display: flex; align-items: center;
+      justify-content: center; gap: 48px;
+      flex-wrap: wrap;
+      position: relative; z-index: 2;
+    }
+
+    .nmls-item {
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .nmls-dot {
+      width: 5px; height: 5px;
+      background: var(--gold); border-radius: 50%;
+    }
+
+    .nmls-item span {
+      font-size: 11px; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .nmls-item strong {
+      font-size: 11px; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      padding: 80px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      position: relative; z-index: 2;
+    }
+
+    .stat {
+      background: var(--navy);
+      padding: 40px 36px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px; font-weight: 300;
+      color: var(--gold); line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-muted); line-height: 1.5;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center; margin-bottom: 56px;
+    }
+
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: ''; width: 24px; height: 1px;
+      background: var(--gold);
+    }
+
+    .section-eyebrow span {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 400; line-height: 1.15;
+      color: var(--text);
+    }
+
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    /* ── LOANS ── */
+    .loans {
+      padding: 100px 80px;
+      position: relative; z-index: 2;
+    }
+
+    .loans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .loan-card {
+      background: var(--navy-mid);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .loan-card:hover { background: var(--navy-light); }
+
+    .loan-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .loan-card:hover::before { transform: scaleX(1); }
+
+    .loan-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px; font-weight: 400;
+      color: var(--gold); opacity: 0.5;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .loan-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 500;
+      color: var(--text); margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .loan-desc {
+      font-size: 14px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.7;
+    }
+
+    /* ── WHY PHIL ── */
+    .why {
+      padding: 100px 80px;
+      background: var(--navy-mid);
+      position: relative; z-index: 2;
+      overflow: hidden;
+    }
+
+    .why::before {
+      content: '';
+      position: absolute; top: -120px; right: -120px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,162,74,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px 80px;
+      margin-top: 56px;
+    }
+
+    .why-item {
+      display: flex; gap: 24px;
+    }
+
+    .why-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+
+    .why-content h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 500;
+      color: var(--text); margin-bottom: 8px;
+    }
+
+    .why-content p {
+      font-size: 14px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.75;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 100px 80px;
+      position: relative; z-index: 2;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .testimonial {
+      background: var(--navy);
+      padding: 40px 36px;
+    }
+
+    .testimonial-stars {
+      color: var(--gold);
+      font-size: 14px; letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-weight: 400; font-style: italic;
+      color: var(--text); line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .testimonial-author {
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      padding: 120px 80px;
+      background: var(--navy-mid);
+      text-align: center;
+      position: relative; z-index: 2;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(201,162,74,0.07) 0%, transparent 60%);
+      border-radius: 50%;
+    }
+
+    .cta-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      display: block;
+    }
+
+    .cta-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 68px);
+      font-weight: 300; line-height: 1.1;
+      color: var(--text); margin-bottom: 20px;
+      position: relative; z-index: 1;
+    }
+
+    .cta-heading em { font-style: italic; color: var(--gold); }
+
+    .cta-sub {
+      font-size: 15px; font-weight: 300;
+      color: var(--text-muted); margin-bottom: 48px;
+      position: relative; z-index: 1;
+    }
+
+    .cta-buttons {
+      display: flex; align-items: center; justify-content: center;
+      gap: 20px; flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+
+    .cta-contact {
+      display: flex; align-items: center; gap: 32px;
+      justify-content: center; flex-wrap: wrap;
+      margin-top: 48px;
+      position: relative; z-index: 1;
+    }
+
+    .cta-contact-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 300; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+
+    .cta-contact-item:hover { color: var(--gold); }
+
+    .cta-contact-item span {
+      font-size: 16px; color: var(--gold);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid var(--border);
+      padding: 36px 80px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap;
+      gap: 16px;
+      position: relative; z-index: 2;
+    }
+
+    .footer-left {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 500;
+      color: var(--gold); letter-spacing: 2px;
+    }
+
+    .footer-compliance {
+      font-size: 11px; color: var(--text-muted);
+      line-height: 1.7; max-width: 560px;
+      text-align: center;
+    }
+
+    .footer-right {
+      font-size: 11px; color: var(--text-muted);
+      text-align: right;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-left > * {
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-eyebrow   { animation-delay: 0.1s; }
+    .hero-name      { animation-delay: 0.25s; }
+    .hero-title     { animation-delay: 0.35s; }
+    .hero-divider   { animation-delay: 0.45s; }
+    .hero-tagline   { animation-delay: 0.55s; }
+    .hero-cta-row   { animation-delay: 0.7s; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-left {
+        padding: 100px 28px 48px;
+      }
+
+      .hero-right {
+        height: 380px;
+      }
+
+      .photo-placeholder {
+        width: 60%; max-width: 240px;
+      }
+
+      .photo-initials { font-size: 64px; }
+
+      .nmls-strip { padding: 16px 24px; gap: 20px; }
+
+      .stats {
+        padding: 0;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat { padding: 28px 24px; }
+
+      .loans, .why, .testimonials, .cta-section {
+        padding: 64px 24px;
+      }
+
+      .loans-grid, .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .why-grid { grid-template-columns: 1fr; gap: 36px; }
+
+      footer {
+        padding: 28px 24px;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-right { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-mono">PL</div>
+    <ul class="nav-links">
+      <li><a href="#loans">Loans</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://www.loanfactory.com/phillipla/apply" target="_blank" class="btn-apply">Apply Now →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span>Mortgage Loan Officer · California</span>
+      </div>
+      <h1 class="hero-name">Phillip<br><em>La</em></h1>
+      <p class="hero-title">Your Friendly Neighborhood Loan Officer</p>
+      <div class="hero-divider"></div>
+      <p class="hero-tagline">Fast closings, honest rates, and someone who actually picks up the phone. Let's get you into the right loan.</p>
+      <div class="hero-cta-row">
+        <a href="https://www.loanfactory.com/phillipla/apply" target="_blank" class="btn-primary">Start Your Application →</a>
+        <a href="tel:7147266333" class="btn-ghost">714-726-6333</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-photo-wrap">
+        <div class="photo-placeholder">
+          <div class="photo-initials">PL</div>
+          <span class="photo-note">Add Photo Here</span>
+        </div>
+      </div>
+      <div class="hero-geo-1"></div>
+      <div class="hero-geo-2"></div>
+    </div>
+  </section>
+
+  <!-- NMLS STRIP -->
+  <div class="nmls-strip">
+    <div class="nmls-item">
+      <div class="nmls-dot"></div>
+      <span>MLO NMLS <strong>#2493651</strong></span>
+    </div>
+    <div class="nmls-item">
+      <div class="nmls-dot"></div>
+      <span>Loan Factory NMLS <strong>#320841</strong></span>
+    </div>
+    <div class="nmls-item">
+      <div class="nmls-dot"></div>
+      <span>Licensed in <strong>California</strong></span>
+    </div>
+    <div class="nmls-item">
+      <div class="nmls-dot"></div>
+      <span>Equal Housing <strong>Lender</strong></span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Loan Types<br>Offered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">CA</div>
+      <div class="stat-label">Statewide<br>Coverage</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Available for<br>Your Questions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">⭐</div>
+      <div class="stat-label">Client-First<br>Every Time</div>
+    </div>
+  </div>
+
+  <!-- LOANS -->
+  <section class="loans" id="loans">
+    <div class="section-header">
+      <div class="section-eyebrow"><span>What I Offer</span></div>
+      <h2 class="section-title">The Right Loan for<br><em>Every Situation</em></h2>
+    </div>
+    <div class="loans-grid">
+      <div class="loan-card">
+        <div class="loan-number">01</div>
+        <div class="loan-name">Purchase Loans</div>
+        <div class="loan-desc">Buying your first home or your fifth — I'll find you the right rate and walk you through every step of the process.</div>
+      </div>
+      <div class="loan-card">
+        <div class="loan-number">02</div>
+        <div class="loan-name">Refinance</div>
+        <div class="loan-desc">Lower your monthly payment, tap into equity, or shorten your term. Let's run the numbers and see what makes sense.</div>
+      </div>
+      <div class="loan-card">
+        <div class="loan-number">03</div>
+        <div class="loan-name">FHA Loans</div>
+        <div class="loan-desc">Great for first-time buyers with lower down payments. I'll help you qualify and avoid the common pitfalls.</div>
+      </div>
+      <div class="loan-card">
+        <div class="loan-number">04</div>
+        <div class="loan-name">VA Loans</div>
+        <div class="loan-desc">You served. You've earned it. Zero down, no PMI, and competitive rates for veterans and active military.</div>
+      </div>
+      <div class="loan-card">
+        <div class="loan-number">05</div>
+        <div class="loan-name">Jumbo Loans</div>
+        <div class="loan-desc">High-value properties need a loan officer who knows how to work the numbers. I close jumbo deals cleanly.</div>
+      </div>
+      <div class="loan-card">
+        <div class="loan-number">06</div>
+        <div class="loan-name">Investment Property</div>
+        <div class="loan-desc">Growing your portfolio? I work with investors to structure deals that make sense long-term.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY PHIL -->
+  <section class="why" id="about">
+    <div class="section-header">
+      <div class="section-eyebrow"><span>Why Work With Me</span></div>
+      <h2 class="section-title">The Difference Is in<br><em>How I Work</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">⚡</div>
+        <div class="why-content">
+          <h3>Fast, Efficient Closings</h3>
+          <p>I don't let deals stall. I stay on top of every step so your closing happens on time — no surprises at the finish line.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">📞</div>
+        <div class="why-content">
+          <h3>Always Available</h3>
+          <p>Questions don't wait for business hours. I'm reachable when you need me — not just during the 9-to-5.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">💰</div>
+        <div class="why-content">
+          <h3>Honest, Competitive Pricing</h3>
+          <p>No hidden fees, no bait-and-switch. I'll show you exactly what you're getting and why it's the right deal for you.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🤝</div>
+        <div class="why-content">
+          <h3>Attentive Communication</h3>
+          <p>I keep you updated at every stage. You'll never be left wondering where your loan stands or what comes next.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="reviews">
+    <div class="section-header">
+      <div class="section-eyebrow"><span>Client Reviews</span></div>
+      <h2 class="section-title">What Clients<br><em>Are Saying</em></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"Phillip made the whole process so easy. He was always available and kept me informed every step of the way. Closed on time with no issues."</p>
+        <div class="testimonial-author">— First-Time Buyer, Orange County</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"Worked with Phillip on an investment property. He knew exactly what I needed and moved fast. Highly recommend to any investor."</p>
+        <div class="testimonial-author">— Real Estate Investor, Los Angeles</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"Honest, transparent, and genuinely helpful. Phillip got me a better rate than I expected and explained everything clearly."</p>
+        <div class="testimonial-author">— Refinance Client, San Diego</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <span class="cta-label">Ready to Get Started</span>
+    <h2 class="cta-heading">Let's Find You<br>the <em>Right Loan</em></h2>
+    <p class="cta-sub">Takes 5 minutes to apply. I'll reach out same day.</p>
+    <div class="cta-buttons">
+      <a href="https://www.loanfactory.com/phillipla/apply" target="_blank" class="btn-primary">Start Application →</a>
+    </div>
+    <div class="cta-contact">
+      <a href="tel:7147266333" class="cta-contact-item">
+        <span>📞</span> 714-726-6333
+      </a>
+      <a href="mailto:phillip.la@loanfactory.com" class="cta-contact-item">
+        <span>✉</span> phillip.la@loanfactory.com
+      </a>
+      <a href="https://www.instagram.com/phillip.laloans" target="_blank" class="cta-contact-item">
+        <span>📷</span> @phillip.laloans
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">PHILLIP LA</div>
+    <div class="footer-compliance">
+      Phillip La | MLO NMLS #2493651 | Loan Factory NMLS #320841 | Licensed in California<br>
+      Equal Housing Lender. Loan approval is not guaranteed and is subject to lender review of information.
+    </div>
+    <div class="footer-right">
+      © 2026 Phillip La<br>
+      All Rights Reserved
+    </div>
+  </footer>
+
+</body>
+</html>
