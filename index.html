@@ -484,6 +484,162 @@
       color: var(--gold);
     }
 
+    /* ── CALCULATOR ── */
+    .calculator {
+      padding: 100px 80px;
+      position: relative; z-index: 2;
+    }
+
+    .calc-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .calc-inputs {
+      background: var(--navy-mid);
+      padding: 48px 44px;
+    }
+
+    .calc-results {
+      background: linear-gradient(140deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+      padding: 48px 44px;
+      display: flex; flex-direction: column;
+      justify-content: center;
+    }
+
+    .calc-field {
+      margin-bottom: 28px;
+    }
+
+    .calc-field:last-child { margin-bottom: 0; }
+
+    .calc-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 10px;
+      display: block;
+    }
+
+    .calc-input-wrap {
+      position: relative;
+    }
+
+    .calc-prefix {
+      position: absolute; left: 16px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px; color: var(--gold);
+      font-weight: 400; pointer-events: none;
+    }
+
+    .calc-suffix {
+      position: absolute; right: 16px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px; color: var(--gold);
+      font-weight: 400; pointer-events: none;
+    }
+
+    .calc-input {
+      width: 100%; padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px; font-weight: 400;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .calc-input.has-prefix { padding-left: 32px; }
+    .calc-input.has-suffix { padding-right: 36px; }
+
+    .calc-input:focus {
+      border-color: var(--gold);
+      background: rgba(201,162,74,0.05);
+    }
+
+    .calc-input::-webkit-inner-spin-button,
+    .calc-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    .calc-select {
+      width: 100%; padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px; font-weight: 400;
+      outline: none; cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a24a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      transition: border-color 0.2s;
+    }
+
+    .calc-select:focus { border-color: var(--gold); }
+    .calc-select option { background: var(--navy-mid); }
+
+    .calc-result-main {
+      margin-bottom: 36px;
+    }
+
+    .calc-result-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+
+    .calc-result-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 5vw, 68px);
+      font-weight: 300; color: var(--text);
+      line-height: 1;
+    }
+
+    .calc-result-sub {
+      font-size: 13px; color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .calc-breakdown {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .calc-breakdown-row {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .calc-breakdown-key {
+      font-size: 13px; color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .calc-breakdown-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 400;
+      color: var(--text);
+    }
+
+    .calc-disclaimer {
+      font-size: 11px; color: var(--text-muted);
+      margin-top: 24px; line-height: 1.6;
+      opacity: 0.7;
+    }
+
+    .calc-cta {
+      margin-top: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .calc-wrap { grid-template-columns: 1fr; }
+      .calculator { padding: 64px 24px; }
+      .calc-inputs, .calc-results { padding: 32px 24px; }
+    }
+
     /* ── CTA SECTION ── */
     .cta-section {
       padding: 120px 80px;
@@ -837,6 +993,102 @@
     </div>
   </section>
 
+  <!-- CALCULATOR -->
+  <section class="calculator" id="calculator">
+    <div class="section-header">
+      <div class="section-eyebrow"><span>Mortgage Calculator</span></div>
+      <h2 class="section-title">Estimate Your<br><em>Monthly Payment</em></h2>
+    </div>
+    <div class="calc-wrap">
+      <div class="calc-inputs">
+
+        <div class="calc-field">
+          <label class="calc-label" for="homePrice">Home Price</label>
+          <div class="calc-input-wrap">
+            <span class="calc-prefix">$</span>
+            <input class="calc-input has-prefix" type="number" id="homePrice" value="500000" oninput="calculate()">
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="downPayment">Down Payment</label>
+          <div class="calc-input-wrap">
+            <span class="calc-prefix">$</span>
+            <input class="calc-input has-prefix" type="number" id="downPayment" value="100000" oninput="calculate()">
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="loanTerm">Loan Term</label>
+          <select class="calc-select" id="loanTerm" onchange="calculate()">
+            <option value="30">30 Years</option>
+            <option value="20">20 Years</option>
+            <option value="15">15 Years</option>
+            <option value="10">10 Years</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="interestRate">Interest Rate</label>
+          <div class="calc-input-wrap">
+            <input class="calc-input has-suffix" type="number" id="interestRate" value="6.8" step="0.1" oninput="calculate()">
+            <span class="calc-suffix">%</span>
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="propertyTax">Property Tax (Annual)</label>
+          <div class="calc-input-wrap">
+            <span class="calc-prefix">$</span>
+            <input class="calc-input has-prefix" type="number" id="propertyTax" value="6000" oninput="calculate()">
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="homeInsurance">Home Insurance (Annual)</label>
+          <div class="calc-input-wrap">
+            <span class="calc-prefix">$</span>
+            <input class="calc-input has-prefix" type="number" id="homeInsurance" value="1200" oninput="calculate()">
+          </div>
+        </div>
+
+      </div>
+      <div class="calc-results">
+        <div class="calc-result-main">
+          <div class="calc-result-label">Estimated Monthly Payment</div>
+          <div class="calc-result-amount" id="monthlyTotal">$0</div>
+          <div class="calc-result-sub">Principal, interest, taxes & insurance</div>
+        </div>
+        <div class="calc-breakdown">
+          <div class="calc-breakdown-row">
+            <span class="calc-breakdown-key">Principal & Interest</span>
+            <span class="calc-breakdown-val" id="principalInterest">—</span>
+          </div>
+          <div class="calc-breakdown-row">
+            <span class="calc-breakdown-key">Property Tax</span>
+            <span class="calc-breakdown-val" id="taxMonthly">—</span>
+          </div>
+          <div class="calc-breakdown-row">
+            <span class="calc-breakdown-key">Home Insurance</span>
+            <span class="calc-breakdown-val" id="insuranceMonthly">—</span>
+          </div>
+          <div class="calc-breakdown-row">
+            <span class="calc-breakdown-key">Loan Amount</span>
+            <span class="calc-breakdown-val" id="loanAmount">—</span>
+          </div>
+          <div class="calc-breakdown-row">
+            <span class="calc-breakdown-key">Total Interest Paid</span>
+            <span class="calc-breakdown-val" id="totalInterest">—</span>
+          </div>
+        </div>
+        <p class="calc-disclaimer">Estimates only. Actual rates and payments vary based on credit, lender, and market conditions. Contact Phillip for your personalized rate.</p>
+        <div class="calc-cta">
+          <a href="https://www.loanfactory.com/phillipla/apply" target="_blank" class="btn-primary">Get Your Actual Rate →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta-section" id="contact">
     <span class="cta-label">Ready to Get Started</span>
@@ -871,5 +1123,44 @@
     </div>
   </footer>
 
+  <script>
+    function fmt(n) {
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+
+    function calculate() {
+      const price    = parseFloat(document.getElementById('homePrice').value) || 0;
+      const down     = parseFloat(document.getElementById('downPayment').value) || 0;
+      const years    = parseInt(document.getElementById('loanTerm').value) || 30;
+      const rate     = parseFloat(document.getElementById('interestRate').value) || 0;
+      const tax      = parseFloat(document.getElementById('propertyTax').value) || 0;
+      const ins      = parseFloat(document.getElementById('homeInsurance').value) || 0;
+
+      const principal = Math.max(price - down, 0);
+      const months    = years * 12;
+      const mRate     = rate / 100 / 12;
+
+      let pi = 0;
+      if (mRate > 0 && months > 0) {
+        pi = principal * (mRate * Math.pow(1 + mRate, months)) / (Math.pow(1 + mRate, months) - 1);
+      } else if (months > 0) {
+        pi = principal / months;
+      }
+
+      const taxMo  = tax / 12;
+      const insMo  = ins / 12;
+      const total  = pi + taxMo + insMo;
+      const totalInt = (pi * months) - principal;
+
+      document.getElementById('monthlyTotal').textContent     = fmt(total);
+      document.getElementById('principalInterest').textContent = fmt(pi);
+      document.getElementById('taxMonthly').textContent        = fmt(taxMo);
+      document.getElementById('insuranceMonthly').textContent  = fmt(insMo);
+      document.getElementById('loanAmount').textContent        = fmt(principal);
+      document.getElementById('totalInterest').textContent     = fmt(Math.max(totalInt, 0));
+    }
+
+    calculate();
+  </script>
 </body>
 </html>
