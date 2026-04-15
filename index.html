@@ -749,6 +749,118 @@
       color: var(--gold); letter-spacing: 1px;
     }
 
+    /* ── LOAN FACTORY NETWORK ── */
+    .lf-network {
+      padding: 80px;
+      background: var(--navy-mid);
+      position: relative; z-index: 2;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lf-network-header {
+      text-align: center; margin-bottom: 48px;
+    }
+
+    .lf-network-eyebrow {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+      display: block;
+    }
+
+    .lf-network-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 400; color: var(--text);
+      line-height: 1.2;
+    }
+
+    .lf-cards-top {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-bottom: 2px;
+      background: var(--border);
+    }
+
+    .lf-card {
+      background: var(--navy);
+      padding: 44px 36px;
+      text-align: center;
+      transition: background 0.3s ease;
+    }
+
+    .lf-card:hover { background: var(--navy-light); }
+
+    .lf-card-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 5vw, 68px);
+      font-weight: 300;
+      color: var(--gold); line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .lf-card-label {
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .lf-card-google {
+      background: var(--navy);
+      border-top: 2px solid var(--border);
+      padding: 36px 48px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+      transition: background 0.3s ease;
+    }
+
+    .lf-card-google:hover { background: var(--navy-light); }
+
+    .lf-google-left {
+      display: flex; align-items: center; gap: 16px;
+    }
+
+    .lf-g-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+    }
+
+    .lf-google-text {
+      font-size: 15px; font-weight: 300;
+      color: var(--text); line-height: 1.6;
+    }
+
+    .lf-google-right {
+      display: flex; align-items: center; gap: 28px;
+    }
+
+    .lf-google-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 4.5vw, 60px);
+      font-weight: 300; color: var(--gold);
+      line-height: 1;
+    }
+
+    .lf-google-meta {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+
+    .lf-google-stars {
+      color: #f4b942; font-size: 18px; letter-spacing: 3px;
+    }
+
+    .lf-google-label {
+      font-size: 11px; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .lf-network { padding: 64px 24px; }
+      .lf-cards-top { grid-template-columns: 1fr; }
+      .lf-card-google { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+      .lf-google-right { flex-direction: row; align-items: center; }
+    }
+
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -889,6 +1001,57 @@
       <span>Spoken <strong>English & Vietnamese</strong></span>
     </div>
   </div>
+
+  <!-- LOAN FACTORY NETWORK -->
+  <section class="lf-network">
+    <div class="lf-network-header">
+      <span class="lf-network-eyebrow">The Network Behind Me</span>
+      <h2 class="lf-network-title">Backed by <em style="font-style:italic;color:var(--gold)">Loan Factory</em></h2>
+    </div>
+
+    <div class="lf-cards-top">
+      <div class="lf-card">
+        <div class="lf-card-num">
+          <span class="count-up" data-target="226" data-suffix="+">0+</span>
+        </div>
+        <div class="lf-card-label">Lending Partners</div>
+      </div>
+      <div class="lf-card">
+        <div class="lf-card-num">
+          <span class="count-up" data-target="2397" data-suffix="+">0+</span>
+        </div>
+        <div class="lf-card-label">Loan Officers Nationwide</div>
+      </div>
+      <div class="lf-card">
+        <div class="lf-card-num">
+          <span class="count-up" data-target="48" data-suffix="">0</span>
+        </div>
+        <div class="lf-card-label">Licensed States</div>
+      </div>
+    </div>
+
+    <div class="lf-card-google">
+      <div class="lf-google-left">
+        <svg class="lf-g-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          <path fill="none" d="M0 0h48v48H0z"/>
+        </svg>
+        <div class="lf-google-text">See what customers say<br>about working with us.</div>
+      </div>
+      <div class="lf-google-right">
+        <div class="lf-google-count">
+          <span class="count-up" data-target="18308" data-suffix="+">0+</span>
+        </div>
+        <div class="lf-google-meta">
+          <div class="lf-google-stars">★★★★★</div>
+          <div class="lf-google-label">Avg. 5.0 · Google Reviews</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- STATS -->
   <div class="stats">
@@ -1183,6 +1346,35 @@
   </footer>
 
   <script>
+    // ── COUNT-UP ANIMATION ──
+    function animateCounter(el, target, suffix, duration) {
+      const start = performance.now();
+      function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        const current = Math.round(eased * target);
+        el.textContent = current.toLocaleString('en-US') + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          const target = parseInt(entry.target.dataset.target);
+          const suffix = entry.target.dataset.suffix || '';
+          animateCounter(entry.target, target, suffix, 1800);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    document.querySelectorAll('.count-up').forEach(el => {
+      counterObserver.observe(el);
+    });
+
+    // ── MORTGAGE CALCULATOR ──
     function fmt(n) {
       return '$' + Math.round(n).toLocaleString('en-US');
     }
