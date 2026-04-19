@@ -3,15 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phillip La — Mortgage Loan Officer | California</title>
+  <title>Phillip La — Mortgage Loan Officer | Orange County, CA | NMLS #2493651</title>
+  <meta name="description" content="Phillip La is a California mortgage loan officer with Loan Factory. Specializing in FHA, VA, Jumbo, CA Dream For All, and first-time buyer programs. Serving Orange County and all of California. NMLS #2493651.">
+  <link rel="canonical" href="https://philliplaloans.com/">
+  <meta property="og:title" content="Phillip La — Mortgage Loan Officer | Orange County, CA">
+  <meta property="og:description" content="I help California homebuyers pick the right loan — not the easiest one to close. FHA, VA, Jumbo, CA Dream For All & more. Call 714-726-6333.">
+  <meta property="og:url" content="https://philliplaloans.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://philliplaloans.com/pics/HeadShot.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Phillip La — Mortgage Loan Officer | California">
+  <meta name="twitter:description" content="I help California homebuyers pick the right loan — not the easiest one to close.">
+  <meta name="twitter:image" content="https://philliplaloans.com/pics/HeadShot.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy:       #0D1A12;
-      --navy-mid:   #122018;
-      --navy-light: #1A2E20;
+      --navy:       #141414;
+      --navy-mid:   #1c1c1c;
+      --navy-light: #282828;
       --gold:       #E8622A;
       --gold-light: #f07845;
       --gold-pale:  rgba(232,98,42,0.12);
@@ -44,7 +55,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 20px 48px;
-      background: rgba(13,26,18,0.85);
+      background: rgba(20,20,20,0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       transition: padding 0.3s ease;
@@ -119,7 +130,7 @@
 
     .hero-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(52px, 7vw, 88px);
+      font-size: clamp(36px, 7vw, 88px);
       font-weight: 300; line-height: 1.0;
       color: var(--text);
       margin-bottom: 6px;
@@ -337,12 +348,105 @@
 
     .section-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 4vw, 52px);
+      font-size: clamp(26px, 4vw, 52px);
       font-weight: 400; line-height: 1.15;
       color: var(--text);
     }
 
     .section-title em { font-style: italic; color: var(--gold); }
+
+    /* ── DREAM (CA Dream For All featured) ── */
+    .dream {
+      padding: 96px 60px;
+      position: relative; z-index: 2;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dream-wrap {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dream-eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .dream-eyebrow-line {
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .dream-eyebrow span {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .dream-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4.8vw, 64px);
+      font-weight: 400; line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+
+    .dream-title em { font-style: italic; color: var(--gold); }
+
+    .dream-body {
+      font-size: 16px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.85;
+      max-width: 480px; margin-bottom: 36px;
+    }
+
+    .dream-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 8px;
+      transition: opacity 0.2s, gap 0.2s;
+    }
+    .dream-cta:hover { opacity: 0.75; gap: 14px; }
+
+    .dream-aside {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 0;
+    }
+
+    .dream-aside-label {
+      font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .dream-aside-stat {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(44px, 8vw, 104px);
+      font-weight: 300; line-height: 1;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .dream-aside-stat em { font-style: italic; color: var(--gold); }
+
+    .dream-aside-sub {
+      font-size: 13px; color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 300px;
+    }
+
+    @media (max-width: 900px) {
+      .dream { padding: 64px 24px; }
+      .dream-wrap { grid-template-columns: 1fr; gap: 48px; }
+    }
 
     /* ── LOANS ── */
     .loans {
@@ -398,6 +502,19 @@
       font-size: 14px; font-weight: 300;
       color: var(--text-muted); line-height: 1.7;
     }
+
+    .loan-card-cta {
+      display: flex; flex-direction: column;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .loan-card-cta:hover { background: var(--navy-mid); }
+
+    .loan-card-cta .loan-number { color: var(--gold); opacity: 1; }
+    .loan-card-cta .loan-name { color: var(--gold); }
+    .loan-card-cta .loan-desc { color: var(--text); }
 
     /* ── WHY PHIL ── */
     .why {
@@ -668,7 +785,7 @@
 
     .cta-heading {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(40px, 5vw, 68px);
+      font-size: clamp(30px, 5vw, 68px);
       font-weight: 300; line-height: 1.1;
       color: var(--text); margin-bottom: 20px;
       position: relative; z-index: 1;
@@ -867,11 +984,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(-10px); }
-    }
-
     /* Hero entrance */
     .hero-left > * {
       animation: fadeUp 0.8s ease forwards;
@@ -885,16 +997,11 @@
     .hero-tagline   { animation-delay: 0.55s; }
     .hero-cta-row   { animation-delay: 0.7s; }
 
-    /* Hero photo float */
-    .photo-placeholder {
-      animation: float 6s ease-in-out infinite;
-    }
-
     /* Nav scroll shrink */
     nav { transition: padding 0.3s ease, background 0.3s ease; }
     nav.scrolled {
       padding: 12px 48px;
-      background: rgba(13,26,18,0.97);
+      background: rgba(20,20,20,0.97);
       box-shadow: 0 4px 32px rgba(0,0,0,0.4);
     }
 
@@ -1019,9 +1126,8 @@
         <span>Mortgage Loan Officer · California</span>
       </div>
       <h1 class="hero-name">Phillip<br><em>La</em></h1>
-      <p class="hero-title">Your Friendly Neighborhood Loan Officer</p>
       <div class="hero-divider"></div>
-      <p class="hero-tagline">Fast closings, honest rates, and someone who actually picks up the phone. Let's get you into the right loan.</p>
+      <p class="hero-tagline">I help California homebuyers pick the right loan — not the easiest one to close.</p>
       <div class="hero-cta-row">
         <a href="https://www.loanfactory.com/phillipla/apply" target="_blank" class="btn-primary">Start Your Application →</a>
         <a href="tel:7147266333" class="btn-ghost">714-726-6333</a>
@@ -1114,25 +1220,25 @@
     </div>
   </section>
 
-  <!-- STATS -->
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-num">8+</div>
-      <div class="stat-label">Loan Types<br>Offered</div>
+  <!-- DREAM — CA Dream For All featured -->
+  <section class="dream">
+    <div class="dream-wrap">
+      <div class="dream-content reveal">
+        <div class="dream-eyebrow">
+          <div class="dream-eyebrow-line"></div>
+          <span>Most People Don't Know This Exists</span>
+        </div>
+        <h2 class="dream-title">California <em>Dream<br>For All</em></h2>
+        <p class="dream-body">A California state program that covers up to 20% of your down payment for first-time buyers. Most loan officers either don't know about it or don't bother explaining it. I'll walk you through whether you qualify — and what it means for your monthly payment.</p>
+        <a href="tel:7147266333" class="dream-cta">Ask Phil if you qualify →</a>
+      </div>
+      <aside class="dream-aside reveal">
+        <div class="dream-aside-label">Down Payment Coverage</div>
+        <div class="dream-aside-stat">Up to <em>20%</em></div>
+        <div class="dream-aside-sub">Covered by the state for first-time California buyers who qualify for the Dream For All program.</div>
+      </aside>
     </div>
-    <div class="stat">
-      <div class="stat-num">CA</div>
-      <div class="stat-label">Statewide<br>Coverage</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">24/7</div>
-      <div class="stat-label">Available for<br>Your Questions</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">5★</div>
-      <div class="stat-label">Client-First<br>Every Time</div>
-    </div>
-  </div>
+  </section>
 
   <!-- LOANS -->
   <section class="loans" id="loans">
@@ -1173,14 +1279,14 @@
       </div>
       <div class="loan-card">
         <div class="loan-number">07</div>
-        <div class="loan-name">California Dream For All</div>
-        <div class="loan-desc">CA state program that covers up to 20% of your down payment. Built for first-time buyers — most people don't know it exists. I'll walk you through it.</div>
-      </div>
-      <div class="loan-card">
-        <div class="loan-number">08</div>
         <div class="loan-name">DSCR Loans</div>
         <div class="loan-desc">Qualify based on rental income, not your personal income. Ideal for investors expanding a portfolio without the usual income documentation hurdles.</div>
       </div>
+      <a href="tel:7147266333" class="loan-card loan-card-cta">
+        <div class="loan-number">—</div>
+        <div class="loan-name">Not sure which one?</div>
+        <div class="loan-desc">Tell me your situation in five minutes and I'll point you to the right loan. No pressure, no application.</div>
+      </a>
     </div>
   </section>
 
@@ -1562,6 +1668,30 @@
     }
 
     calculate();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "Phillip La — Mortgage Loan Officer",
+    "description": "California mortgage loan officer specializing in FHA, VA, Jumbo, CA Dream For All, and first-time buyer loans. Serving Orange County and all of California.",
+    "url": "https://philliplaloans.com",
+    "telephone": "+17147266333",
+    "email": "phillip.la@loanfactory.com",
+    "image": "https://philliplaloans.com/pics/HeadShot.png",
+    "areaServed": { "@type": "State", "name": "California" },
+    "address": { "@type": "PostalAddress", "addressRegion": "CA", "addressCountry": "US" },
+    "employee": {
+      "@type": "Person",
+      "name": "Phillip La",
+      "jobTitle": "Mortgage Loan Officer",
+      "telephone": "+17147266333",
+      "email": "phillip.la@loanfactory.com",
+      "sameAs": ["https://www.instagram.com/phillip.laloans", "https://www.loanfactory.com/phillipla"],
+      "knowsLanguage": ["en", "vi"]
+    },
+    "parentOrganization": { "@type": "Organization", "name": "Loan Factory", "url": "https://www.loanfactory.com" }
+  }
   </script>
 </body>
 </html>
