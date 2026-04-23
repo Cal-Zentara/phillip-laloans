@@ -1,9 +1,72 @@
 # PhillipLoans — CLAUDE.md
 
+## Quick Nav — Read First
+
+| I'm doing... | Read only... |
+|---|---|
+| Continuing work / resuming | `STATUS.md` |
+| Fixing a bug | `STATUS.md` + Site Sections (grep for `<!-- SECTION-NAME -->`, don't trust line numbers) |
+| Adding a city/service page | `STATUS.md` + an existing page as template + sitemap.xml |
+| GMB cleanup | `STATUS.md` + Pending Steps (Step 2) |
+| Realtor outreach (Step 3) | `STATUS.md` + Pending Steps (Step 3) |
+| Understanding the whole project | This CLAUDE.md in full |
+
+**Do not explore.** If the answer isn't in the files above, ask before searching.
+
+---
+
+## Dev Reference — Symbol Map / Schema / Gotchas
+
+> Line numbers shift every time a section is added/removed. For the main `index.html`, prefer grepping section comments (`<!-- DREAM`, `<!-- LOANS -->`, etc.) over trusting exact lines — ranges below are current snapshot only.
+
+### Symbol Map
+
+| Feature | File | Lines |
+|---|---|---|
+| Nav (PL monogram, links, Apply button) | `index.html` | 1109–1119 |
+| Hero (split, headshot, geometric accents) | `index.html` | 1121–1146 |
+| NMLS compliance strip | `index.html` | 1148–1170 |
+| LF Network stats (counter animation) | `index.html` | 1172–1221 |
+| CA Dream For All featured block | `index.html` | 1223–1241 |
+| Loan cards grid (7 types + CTA card) | `index.html` | 1243–1291 |
+| Why Phil (4 numbered reasons) | `index.html` | 1293–1329 |
+| Testimonials (4 client reviews) | `index.html` | 1331–1359 |
+| Mortgage calculator (inputs + rates + breakdown) | `index.html` | 1361–1483 |
+| Final CTA | `index.html` | 1485–1504 |
+| Footer | `index.html` | 1506–1518 |
+| Scroll animations (reveal, stagger, counter) | `index.html` | 1520–1581 |
+| Mortgage calculator logic (rate estimation, payment calc) | `index.html` | 1583–1670 |
+| City pages — hero / market / loan grid / CA Dream / about | `[city]/index.html` | 74–90, 92–97, 99–134, 136–145, 147–150+ |
+| Service pages — hero / content / Q&A grids / city chips | `[service]/index.html` | 45–53 hero, then page-specific |
+
+### Data Schema
+
+No client-side persistence — static site, no localStorage, sessionStorage, or DB calls.
+
+**External submit:** Apply CTA → `https://www.loanfactory.com/phillipla/apply` (Loan Factory hosts the real application).
+
+**Mortgage calculator (runs locally, no API):**
+- Inputs: Home Price, Down Payment, Loan Purpose (purchase/refinance), Loan Type (conventional/FHA/VA/jumbo), Credit Score (FICO), Occupancy (primary/second/investment), Loan Term (10/15/20/30), Property Tax (annual)
+- Outputs: estimated rate range, monthly payment, principal+interest, monthly tax, loan amount, down payment %, total interest paid
+- Hardcoded rate tables (not live): `BASE_RATES`, `FICO_ADJ`, `OCC_ADJ`, `PURPOSE_ADJ`, `TERM_ADJ` — lines 1589–1626
+- Reset on page reload; no persistence
+
+### Known Gotchas
+
+- **Rate calculation is hardcoded April 2026 snapshot** (lines 1589–1626). Loan Factory rates are proprietary and can't be fetched. Disclaimer on line 1477 explains this — don't remove.
+- **Hero diagonal accent uses `clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%)` on `.hero-right::after`** (around line 232) — very easy to break when tweaking margins/sizing.
+- **Count-up animation only runs once per scroll via `data-animated` flag** (line 1570) — by design to prevent re-animating on scroll-up.
+- **City pages have CSS inlined as compacted one-liners** (lines 16–71 in each city file) — not shared. Any city-page style change must be duplicated across all 10 city pages.
+- **City pages have fixed nav without shrink-on-scroll logic** (main landing shrinks nav at `scrollY > 60`, lines ~1000–1006) — intentional, don't add shrink to city pages.
+- **Hero geo-squares + diagonal panel were flagged as "AI slop" in v1.3 critique but intentionally kept.** Cal likes the layered composition. Do not remove them.
+- **Phone `714-726-6333` is the only correct one.** `714-989-6421` is a Google Voice number Phil dislikes — never use it on the site.
+
+---
+
 **Client:** Phillip La — Mortgage Loan Officer, Loan Factory, California  
 **Site:** philliplaloans.com (GitHub Pages, repo: Cal-Zentara/phillip-laloans)  
-**Version:** 1.4  
-**Status:** Step 1 done (SEO expansion complete). Step 2 in progress. Step 3 planned.
+**Version:** 1.5  
+**Status:** Step 1 done (SEO expansion complete). Step 2 mostly done — GMB updated, verification video pending from Phil. Step 3 planned.
 
 ---
 
@@ -152,15 +215,18 @@ PhillipLoans/
 
 ## Pending Steps
 
-### Step 2 — GMB Cleanup (IN PROGRESS)
-Cal logging into Phil's Google account to update:
-- Business name: `Phillip La — Mortgage Loan Officer`
-- Phone: `714-726-6333`
-- Description: *"I help California homebuyers and homeowners navigate the mortgage process with clarity and honesty. Whether you're buying your first home, investing in property, or looking to refinance, I'll find the right loan for your situation — not just the easiest one to close. Licensed in California, NMLS #2014566."*
-- Website: `https://philliplaloans.com`
-- Photo: upload `pics/HeadShot.png`
+### Step 2 — GMB Cleanup (MOSTLY DONE — verification pending)
+Completed April 19, 2026:
+- ✅ Business name → `Phillip La — Mortgage Loan Officer`
+- ✅ Phone → `714-726-6333`
+- ✅ Description updated (personable rewrite — mentions Vietnamese, Loan Factory 226+ lenders, honest angle)
+- ✅ Website → `https://philliplaloans.com`
+- ✅ Asian-owned → Yes
+- ✅ Duplicate listing ("Phillip La — Mortgage Loan Officer") deleted by Phil
+- ⏳ Verification video — Phil records it live inside the Google Business Profile app (can't pre-record and upload — must be done in-app). Phil doing it himself tomorrow.
+- ⏳ Cover photo — replace family group shot with `pics/HeadShot.png` once verified
 
-Go to: business.google.com
+**Note:** Verification is recorded live in the Google Business Profile app on Phil's phone. Cal cannot do this step — Phil must do it himself.
 
 ### Step 3 — Realtor Outreach System (PLANNED)
 Elevasis workflow:
@@ -181,3 +247,4 @@ Elevasis workflow:
 | 1.2 | 2026-04-14 | Rethemed to charcoal + Loan Factory orange, added LF co-brand footer |
 | 1.3 | 2026-04-15 | Ran Impeccable critique. Fixed dark-green palette drift back to true charcoal. Replaced "Friendly Neighborhood" tagline with "I help California homebuyers pick the right loan, not the easiest one to close." Deleted Stats Grid (8+/CA/24/7/5★). Pulled CA Dream For All out as featured editorial block between LF Network and Loans. Removed float animation on hero photo. Added "Not sure which one?" CTA card to fill 8th loans-grid slot. |
 | 1.4 | 2026-04-19 | Full SEO expansion. Added robots.txt, sitemap.xml (14 URLs), llm.txt. Built 10 city pages (Irvine, Anaheim, Huntington Beach, Garden Grove, Fullerton, Orange, Newport Beach, Costa Mesa, Yorba Linda, Santa Ana) — each with unique market copy, loan grid, CA Dream For All callout, and JSON-LD schema. Built 3 service pages (CA Dream For All, FHA Loans, Vietnamese Loan Officer). All pages interlinked via city chips. Strategy: rank for "[loan officer] in [city]" searches across Orange County. |
+| 1.5 | 2026-04-19 | Keyword research pass revealed 4 missing service pages. Built and deployed: VA Loans, First Time Home Buyer, Refinance, Conventional Loans. Sitemap updated to 18 URLs and resubmitted to Google Search Console. |
