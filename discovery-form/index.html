@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phillip La Loans — Client Discovery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a2e5a;
+      --primary-dark: #0f1c38;
+      --primary-light: #2a4a8a;
+      --accent: #c9a24a;
+      --accent-dark: #a07e30;
+      --accent-light: #e0bb6a;
+      --white: #ffffff;
+      --off-white: #f5f4f0;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --border: #e2e8f0;
+      --error: #ef4444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Progress Bar ── */
+    .progress-bar-wrap {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: none;
+      align-items: center;
+      gap: 14px;
+    }
+    .progress-bar-wrap.visible { display: flex; }
+    .progress-label { font-size: 13px; font-weight: 500; color: var(--text-muted); white-space: nowrap; min-width: 110px; }
+    .progress-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+    .progress-pct { font-size: 13px; font-weight: 600; color: var(--accent); min-width: 34px; text-align: right; }
+
+    /* ── Container ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 80px 24px 60px; }
+
+    /* ── Header ── */
+    .main-header { text-align: center; padding: 56px 0 36px; }
+    .header-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(201,162,74,0.1);
+      padding: 6px 14px; border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .main-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 6vw, 50px);
+      font-weight: 700; color: var(--primary);
+      line-height: 1.15;
+    }
+    .accent-line { width: 56px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); margin: 14px auto; border-radius: 2px; }
+    .main-header p { font-size: 15px; color: var(--text-muted); line-height: 1.65; max-width: 420px; margin: 0 auto; }
+
+    /* ── Sections ── */
+    .section { display: none; }
+    .section.active { display: block; animation: fadeUp 0.45s ease forwards; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Intro Card ── */
+    .intro-card {
+      background: linear-gradient(140deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 20px; padding: 48px 40px;
+      text-align: center; color: white;
+      position: relative; overflow: hidden;
+    }
+    .intro-card::before {
+      content: ''; position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(201,162,74,0.22) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .intro-card::after {
+      content: ''; position: absolute;
+      bottom: -60px; left: -50px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(201,162,74,0.14) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .intro-icon { width: 64px; height: 64px; background: rgba(201,162,74,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-size: 28px; position: relative; z-index: 1; }
+    .intro-card h2 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-bottom: 14px; position: relative; z-index: 1; }
+    .intro-card > p { font-size: 15px; opacity: 0.85; line-height: 1.7; max-width: 400px; margin: 0 auto 28px; position: relative; z-index: 1; }
+    .intro-stats { display: flex; justify-content: center; gap: 36px; margin-bottom: 34px; position: relative; z-index: 1; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--accent-light); }
+    .stat-label { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+
+    /* ── Section Card ── */
+    .section-card {
+      background: white; border-radius: 16px;
+      padding: 36px; margin-bottom: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 14px rgba(26,46,90,0.06);
+    }
+    .section-tag { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+    .section-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
+
+    /* ── Questions ── */
+    .question { margin-bottom: 26px; }
+    .question:last-child { margin-bottom: 0; }
+    .q-label { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 8px; line-height: 1.45; }
+    .q-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+
+    /* ── Choices ── */
+    .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+    .choice-btn {
+      padding: 9px 16px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      background: white; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 400; color: var(--text);
+      cursor: pointer; transition: all 0.18s ease; user-select: none;
+    }
+    .choice-btn:hover { border-color: var(--accent); background: rgba(201,162,74,0.06); }
+    .choice-btn.selected { border-color: var(--accent); background: rgba(201,162,74,0.13); color: var(--primary); font-weight: 500; }
+
+    /* ── Inputs ── */
+    input[type="text"], textarea {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--text); background: white;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      outline: none;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(201,162,74,0.12);
+    }
+    textarea { resize: vertical; min-height: 96px; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px;
+      font-weight: 600; cursor: pointer;
+      transition: all 0.18s ease; border: none;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: white;
+      box-shadow: 0 4px 16px rgba(201,162,74,0.35);
+    }
+    .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,162,74,0.45); }
+    .btn-gold:active { transform: translateY(0); }
+    .btn-gold:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+    .btn-ghost { background: white; color: var(--text-muted); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { border-color: #9ca3af; color: var(--text); }
+    .btn-lg { padding: 16px 34px; font-size: 16px; }
+
+    .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; gap: 10px; }
+
+    /* ── Error ── */
+    .error-msg {
+      background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2);
+      color: var(--error); padding: 12px 16px; border-radius: 8px;
+      font-size: 14px; margin-top: 14px; display: none;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--primary); color: white;
+      padding: 11px 18px; border-radius: 10px;
+      font-size: 14px; font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0; transform: translateY(8px);
+      transition: all 0.28s ease; z-index: 999; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast-dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; }
+
+    /* ── Success ── */
+    .success-screen { display: none; text-align: center; padding: 64px 24px; }
+    .success-icon {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 26px;
+      font-size: 34px; color: var(--accent-light);
+    }
+    .success-screen h2 { font-family: 'Playfair Display', serif; font-size: 30px; color: var(--primary); margin-bottom: 14px; }
+    .success-screen p { font-size: 16px; color: var(--text-muted); line-height: 1.65; max-width: 400px; margin: 0 auto; }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      .container { padding: 70px 16px 48px; }
+      .section-card { padding: 22px 18px; }
+      .intro-card { padding: 36px 22px; }
+      .intro-stats { gap: 22px; }
+      .nav-btns { flex-direction: column-reverse; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar-wrap" id="progressBar">
+    <div class="progress-label" id="progressLabel">Section 1 of 6</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="main-header" id="mainHeader">
+      <div class="header-badge">Client Discovery</div>
+      <h1>Phillip La Loans</h1>
+      <div class="accent-line"></div>
+      <p>Before we build anything, I need to understand your business, your goals, and where you're starting from.</p>
+    </div>
+
+    <!-- ── Section 0: Intro ── -->
+    <div class="section active" id="section-0">
+      <div class="intro-card">
+        <div class="intro-icon">🏠</div>
+        <h2>Let's Map Everything Out</h2>
+        <p>6 short sections — your business, clients, lead gen, online presence, tools, and timeline. Go at your own pace, progress saves automatically.</p>
+        <div class="intro-stats">
+          <div><div class="stat-num">6</div><div class="stat-label">Sections</div></div>
+          <div><div class="stat-num">~10</div><div class="stat-label">Minutes</div></div>
+          <div><div class="stat-num">Auto</div><div class="stat-label">Saved</div></div>
+        </div>
+        <button class="btn btn-gold btn-lg" onclick="startForm()">Let's Get Started →</button>
+      </div>
+    </div>
+
+    <!-- ── Section 1: About You ── -->
+    <div class="section" id="section-1">
+      <div class="section-card">
+        <div class="section-tag">Section 1 of 6</div>
+        <div class="section-title">About You & Your Business</div>
+        <div class="section-desc">The basics — who you are, how long you've been doing this, and what makes you stand out.</div>
+
+        <div class="question">
+          <div class="q-label">What's the full name of your business or brand?</div>
+          <input type="text" id="q_business_name" placeholder="e.g. Phillip La Loans, Phillip La MLO..." oninput="autosave()">
+        </div>
+
+        <div class="question">
+          <div class="q-label">How long have you been a loan officer?</div>
+          <div class="choices" data-type="single" data-key="q_years_exp">
+            <button class="choice-btn" data-value="Under 1 year">Under 1 year</button>
+            <button class="choice-btn" data-value="1–3 years">1–3 years</button>
+            <button class="choice-btn" data-value="3–5 years">3–5 years</button>
+            <button class="choice-btn" data-value="5–10 years">5–10 years</button>
+            <button class="choice-btn" data-value="10+ years">10+ years</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Are you independent or with a brokerage?</div>
+          <div class="choices" data-type="single" data-key="q_setup">
+            <button class="choice-btn" data-value="Independent">Independent</button>
+            <button class="choice-btn" data-value="With a brokerage">With a brokerage</button>
+            <button class="choice-btn" data-value="Both">Both</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">What states are you licensed in?</div>
+          <input type="text" id="q_states" placeholder="e.g. California, Nevada, Texas..." oninput="autosave()">
+        </div>
+
+        <div class="question">
+          <div class="q-label">What makes you different from other loan officers?</div>
+          <div class="q-sub">Speed, communication, expertise, relationships — what do clients say about working with you?</div>
+          <textarea id="q_differentiator" placeholder="I close fast, I always pick up the phone, I specialize in..." oninput="autosave()"></textarea>
+        </div>
+
+        <div class="question">
+          <div class="q-label">How did you hear about Cal?</div>
+          <div class="choices" data-type="multi" data-key="q_referral_source">
+            <button class="choice-btn" data-value="Referral">Referral</button>
+            <button class="choice-btn" data-value="TikTok">TikTok</button>
+            <button class="choice-btn" data-value="Instagram">Instagram</button>
+            <button class="choice-btn" data-value="Facebook">Facebook</button>
+            <button class="choice-btn" data-value="Google">Google</button>
+            <button class="choice-btn" data-value="Cold outreach">Cold outreach</button>
+            <button class="choice-btn" data-value="Other">Other</button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-ghost" onclick="prevSection()">← Back</button>
+        <button class="btn btn-gold" onclick="nextSection()">Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Section 2: Loans & Clients ── -->
+    <div class="section" id="section-2">
+      <div class="section-card">
+        <div class="section-tag">Section 2 of 6</div>
+        <div class="section-title">Your Loans & Ideal Clients</div>
+        <div class="section-desc">Who you help and what types of loans you specialize in — this shapes everything we build.</div>
+
+        <div class="question">
+          <div class="q-label">What types of loans do you primarily offer?</div>
+          <div class="q-sub">Select all that apply.</div>
+          <div class="choices" data-type="multi" data-key="q_loan_types">
+            <button class="choice-btn" data-value="Purchase loans">Purchase loans</button>
+            <button class="choice-btn" data-value="Refinance">Refinance</button>
+            <button class="choice-btn" data-value="FHA">FHA</button>
+            <button class="choice-btn" data-value="VA loans">VA loans</button>
+            <button class="choice-btn" data-value="Jumbo">Jumbo</button>
+            <button class="choice-btn" data-value="USDA">USDA</button>
+            <button class="choice-btn" data-value="Investment property">Investment property</button>
+            <button class="choice-btn" data-value="Construction loans">Construction loans</button>
+            <button class="choice-btn" data-value="Reverse mortgage">Reverse mortgage</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Who is your ideal client?</div>
+          <div class="q-sub">Select all that apply.</div>
+          <div class="choices" data-type="multi" data-key="q_ideal_client">
+            <button class="choice-btn" data-value="First-time homebuyers">First-time homebuyers</button>
+            <button class="choice-btn" data-value="Move-up buyers">Move-up buyers</button>
+            <button class="choice-btn" data-value="Investors">Investors</button>
+            <button class="choice-btn" data-value="Veterans / Military">Veterans / Military</button>
+            <button class="choice-btn" data-value="Self-employed">Self-employed</button>
+            <button class="choice-btn" data-value="High net worth">High net worth</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">What cities or areas do you primarily serve?</div>
+          <input type="text" id="q_service_area" placeholder="e.g. Orange County, Los Angeles, Southern California..." oninput="autosave()">
+        </div>
+
+        <div class="question">
+          <div class="q-label">What's a typical loan size you work with?</div>
+          <div class="choices" data-type="single" data-key="q_loan_size">
+            <button class="choice-btn" data-value="Under $300k">Under $300k</button>
+            <button class="choice-btn" data-value="$300k–$500k">$300k–$500k</button>
+            <button class="choice-btn" data-value="$500k–$750k">$500k–$750k</button>
+            <button class="choice-btn" data-value="$750k–$1M">$750k–$1M</button>
+            <button class="choice-btn" data-value="$1M+">$1M+</button>
+            <button class="choice-btn" data-value="Varies">Varies</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you have a niche or specialty you want to be known for?</div>
+          <textarea id="q_niche" placeholder="e.g. I work mostly with Vietnamese families in OC, I specialize in self-employed borrowers..." oninput="autosave()"></textarea>
+        </div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-ghost" onclick="prevSection()">← Back</button>
+        <button class="btn btn-gold" onclick="nextSection()">Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Section 3: Lead Gen ── -->
+    <div class="section" id="section-3">
+      <div class="section-card">
+        <div class="section-tag">Section 3 of 6</div>
+        <div class="section-title">Lead Generation & Marketing</div>
+        <div class="section-desc">Where your leads come from right now — and where you want them to come from.</div>
+
+        <div class="question">
+          <div class="q-label">Where do your leads come from right now?</div>
+          <div class="q-sub">Be honest — even if the answer is "not many."</div>
+          <div class="choices" data-type="multi" data-key="q_lead_sources">
+            <button class="choice-btn" data-value="Realtor referrals">Realtor referrals</button>
+            <button class="choice-btn" data-value="Past clients">Past clients</button>
+            <button class="choice-btn" data-value="Social media">Social media</button>
+            <button class="choice-btn" data-value="Paid ads">Paid ads</button>
+            <button class="choice-btn" data-value="Google search">Google search</button>
+            <button class="choice-btn" data-value="Word of mouth">Word of mouth</button>
+            <button class="choice-btn" data-value="Cold outreach">Cold outreach</button>
+            <button class="choice-btn" data-value="Not many right now">Not many right now</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">How many new leads do you want per month?</div>
+          <div class="choices" data-type="single" data-key="q_lead_goal">
+            <button class="choice-btn" data-value="5–10">5–10</button>
+            <button class="choice-btn" data-value="10–20">10–20</button>
+            <button class="choice-btn" data-value="20–40">20–40</button>
+            <button class="choice-btn" data-value="40+">40+</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Have you tried any lead gen before? What worked or didn't?</div>
+          <textarea id="q_past_leadgen" placeholder="e.g. Tried Zillow leads — garbage. Ran Facebook ads once but never followed up..." oninput="autosave()"></textarea>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you have a process for following up with leads?</div>
+          <div class="choices" data-type="single" data-key="q_followup">
+            <button class="choice-btn" data-value="Yes — solid system">Yes — solid system</button>
+            <button class="choice-btn" data-value="Sort of — inconsistent">Sort of — inconsistent</button>
+            <button class="choice-btn" data-value="No — I need one">No — I need one</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you want to run paid ads to get leads?</div>
+          <div class="choices" data-type="single" data-key="q_paid_ads">
+            <button class="choice-btn" data-value="Yes">Yes</button>
+            <button class="choice-btn" data-value="Not yet">Not yet</button>
+            <button class="choice-btn" data-value="Maybe later">Maybe later</button>
+            <button class="choice-btn" data-value="No">No</button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-ghost" onclick="prevSection()">← Back</button>
+        <button class="btn btn-gold" onclick="nextSection()">Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Section 4: Online Presence ── -->
+    <div class="section" id="section-4">
+      <div class="section-card">
+        <div class="section-tag">Section 4 of 6</div>
+        <div class="section-title">Your Online Presence</div>
+        <div class="section-desc">What exists right now — website, Google listing, social media, and what you have to work with.</div>
+
+        <div class="question">
+          <div class="q-label">Do you have a website right now?</div>
+          <div class="choices" data-type="single" data-key="q_has_website">
+            <button class="choice-btn" data-value="Yes">Yes</button>
+            <button class="choice-btn" data-value="No">No</button>
+            <button class="choice-btn" data-value="Had one but it's outdated">Had one but it's outdated</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">If yes, what's the URL?</div>
+          <input type="text" id="q_website_url" placeholder="e.g. philliplaloans.com" oninput="autosave()">
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you have a Google My Business listing?</div>
+          <div class="choices" data-type="single" data-key="q_gmb">
+            <button class="choice-btn" data-value="Yes and it's active">Yes and it's active</button>
+            <button class="choice-btn" data-value="Yes but it needs work">Yes but it needs work</button>
+            <button class="choice-btn" data-value="No">No</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">What's wrong with your Google listing (if anything)?</div>
+          <textarea id="q_gmb_issues" placeholder="e.g. It's not showing up in search, info is outdated, no reviews, it got suspended..." oninput="autosave()"></textarea>
+        </div>
+
+        <div class="question">
+          <div class="q-label">What social media are you active on?</div>
+          <div class="choices" data-type="multi" data-key="q_social">
+            <button class="choice-btn" data-value="Instagram">Instagram</button>
+            <button class="choice-btn" data-value="Facebook">Facebook</button>
+            <button class="choice-btn" data-value="LinkedIn">LinkedIn</button>
+            <button class="choice-btn" data-value="TikTok">TikTok</button>
+            <button class="choice-btn" data-value="YouTube">YouTube</button>
+            <button class="choice-btn" data-value="None">None</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you have professional photos of yourself?</div>
+          <div class="choices" data-type="single" data-key="q_photos">
+            <button class="choice-btn" data-value="Yes">Yes</button>
+            <button class="choice-btn" data-value="No">No</button>
+            <button class="choice-btn" data-value="Just casual ones">Just casual ones</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you have client reviews or testimonials?</div>
+          <div class="choices" data-type="single" data-key="q_reviews">
+            <button class="choice-btn" data-value="Yes — lots">Yes — lots</button>
+            <button class="choice-btn" data-value="A few">A few</button>
+            <button class="choice-btn" data-value="Not really">Not really</button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-ghost" onclick="prevSection()">← Back</button>
+        <button class="btn btn-gold" onclick="nextSection()">Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Section 5: Tools & Tech ── -->
+    <div class="section" id="section-5">
+      <div class="section-card">
+        <div class="section-tag">Section 5 of 6</div>
+        <div class="section-title">Tools & Tech</div>
+        <div class="section-desc">What systems you're using — or not — so I know what to connect, replace, or build from scratch.</div>
+
+        <div class="question">
+          <div class="q-label">Do you use a CRM to track leads and clients?</div>
+          <div class="choices" data-type="single" data-key="q_crm">
+            <button class="choice-btn" data-value="Yes">Yes</button>
+            <button class="choice-btn" data-value="No">No</button>
+            <button class="choice-btn" data-value="Just spreadsheets">Just spreadsheets</button>
+            <button class="choice-btn" data-value="I don't track them">I don't track them</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">If yes, which CRM?</div>
+          <input type="text" id="q_crm_name" placeholder="e.g. Follow Up Boss, Salesforce, Jungo, none..." oninput="autosave()">
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you have an email list?</div>
+          <div class="choices" data-type="single" data-key="q_email_list">
+            <button class="choice-btn" data-value="Yes">Yes</button>
+            <button class="choice-btn" data-value="No">No</button>
+            <button class="choice-btn" data-value="Just starting one">Just starting one</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you want a mortgage calculator on your site?</div>
+          <div class="choices" data-type="single" data-key="q_calculator">
+            <button class="choice-btn" data-value="Yes">Yes</button>
+            <button class="choice-btn" data-value="No">No</button>
+            <button class="choice-btn" data-value="Not sure">Not sure</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Do you want an online application or pre-approval form?</div>
+          <div class="choices" data-type="single" data-key="q_app_form">
+            <button class="choice-btn" data-value="Yes">Yes</button>
+            <button class="choice-btn" data-value="No">No</button>
+            <button class="choice-btn" data-value="Not sure">Not sure</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Are there compliance rules I should know about for your content?</div>
+          <div class="q-sub">Some LOs have restrictions on advertising rates, testimonials, or loan claims.</div>
+          <div class="choices" data-type="single" data-key="q_compliance">
+            <button class="choice-btn" data-value="Yes — I'll explain in notes">Yes — I'll explain in notes</button>
+            <button class="choice-btn" data-value="No">No</button>
+            <button class="choice-btn" data-value="Not sure">Not sure</button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-ghost" onclick="prevSection()">← Back</button>
+        <button class="btn btn-gold" onclick="nextSection()">Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Section 6: Timeline ── -->
+    <div class="section" id="section-6">
+      <div class="section-card">
+        <div class="section-tag">Section 6 of 6</div>
+        <div class="section-title">Timeline & Next Steps</div>
+        <div class="section-desc">Last section — what success looks like and how we get started.</div>
+
+        <div class="question">
+          <div class="q-label">What's the #1 thing you need solved right now?</div>
+          <div class="choices" data-type="single" data-key="q_priority">
+            <button class="choice-btn" data-value="More leads">More leads</button>
+            <button class="choice-btn" data-value="Better website">Better website</button>
+            <button class="choice-btn" data-value="Fix my GMB">Fix my GMB</button>
+            <button class="choice-btn" data-value="Social media presence">Social media presence</button>
+            <button class="choice-btn" data-value="Follow-up automation">Follow-up automation</button>
+            <button class="choice-btn" data-value="All of the above">All of the above</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">What does success look like 6 months from now?</div>
+          <textarea id="q_success" placeholder="e.g. I'm pulling 15 leads/month from Google, my GMB is ranking, I don't cold call anymore..." oninput="autosave()"></textarea>
+        </div>
+
+        <div class="question">
+          <div class="q-label">When do you want to get started?</div>
+          <div class="choices" data-type="single" data-key="q_timeline">
+            <button class="choice-btn" data-value="ASAP">ASAP</button>
+            <button class="choice-btn" data-value="Within 2 weeks">Within 2 weeks</button>
+            <button class="choice-btn" data-value="Within a month">Within a month</button>
+            <button class="choice-btn" data-value="Just exploring">Just exploring</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">What's your budget range for this?</div>
+          <div class="choices" data-type="single" data-key="q_budget">
+            <button class="choice-btn" data-value="Under $300">Under $300</button>
+            <button class="choice-btn" data-value="$300–$500">$300–$500</button>
+            <button class="choice-btn" data-value="$500–$800">$500–$800</button>
+            <button class="choice-btn" data-value="$800–$1,200">$800–$1,200</button>
+            <button class="choice-btn" data-value="Let's talk">Let's talk</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">One-time build or ongoing partnership?</div>
+          <div class="choices" data-type="single" data-key="q_engagement">
+            <button class="choice-btn" data-value="One-time build">One-time build</button>
+            <button class="choice-btn" data-value="Ongoing monthly">Ongoing monthly</button>
+            <button class="choice-btn" data-value="Not sure yet">Not sure yet</button>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="q-label">Anything else I should know before I start?</div>
+          <textarea id="q_extra" placeholder="Goals, concerns, context, past experiences — anything goes." oninput="autosave()"></textarea>
+        </div>
+
+        <input type="hidden" name="client_name" value="Phillip La Loans">
+      </div>
+
+      <div id="errorMsg" class="error-msg">Something went wrong — check your connection and try again.</div>
+
+      <div class="nav-btns">
+        <button class="btn btn-ghost" onclick="prevSection()">← Back</button>
+        <button class="btn btn-gold btn-lg" id="submitBtn" onclick="submitForm()">Submit →</button>
+      </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">✓</div>
+      <h2>You're all set, Phillip.</h2>
+      <p>Got everything I need. I'll review your answers and reach out with a plan — usually within 24 hours.</p>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- Toast -->
+  <div class="toast" id="toast"><div class="toast-dot"></div> Progress saved</div>
+
+  <script>
+    const TOTAL = 6;
+    let cur = 0;
+    const data = {};
+
+    // ── Restore from localStorage ──
+    (function load() {
+      const raw = localStorage.getItem('phillip-laloans-disc');
+      if (!raw) return;
+      Object.assign(data, JSON.parse(raw));
+      const ids = ['q_business_name','q_states','q_differentiator','q_service_area','q_niche','q_past_leadgen','q_website_url','q_gmb_issues','q_crm_name','q_success','q_extra'];
+      ids.forEach(id => { const el = document.getElementById(id); if (el && data[id]) el.value = data[id]; });
+      document.querySelectorAll('.choices').forEach(g => {
+        const key = g.dataset.key, type = g.dataset.type;
+        if (!key || !data[key]) return;
+        g.querySelectorAll('.choice-btn').forEach(b => {
+          if (type === 'single' && b.dataset.value === data[key]) b.classList.add('selected');
+          if (type === 'multi' && data[key].includes(b.dataset.value)) b.classList.add('selected');
+        });
+      });
+    })();
+
+    // ── Choice buttons ──
+    document.querySelectorAll('.choices').forEach(g => {
+      g.querySelectorAll('.choice-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          const type = g.dataset.type, key = g.dataset.key;
+          if (type === 'single') {
+            g.querySelectorAll('.choice-btn').forEach(x => x.classList.remove('selected'));
+            b.classList.add('selected');
+            data[key] = b.dataset.value;
+          } else {
+            b.classList.toggle('selected');
+            data[key] = Array.from(g.querySelectorAll('.choice-btn.selected')).map(x => x.dataset.value);
+          }
+          autosave();
+        });
+      });
+    });
+
+    function autosave() {
+      ['q_business_name','q_states','q_differentiator','q_service_area','q_niche','q_past_leadgen','q_website_url','q_gmb_issues','q_crm_name','q_success','q_extra'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+      });
+      localStorage.setItem('phillip-laloans-disc', JSON.stringify(data));
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      clearTimeout(window._tt);
+      window._tt = setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    function updateProgress() {
+      const bar = document.getElementById('progressBar');
+      if (cur === 0) { bar.classList.remove('visible'); return; }
+      bar.classList.add('visible');
+      const pct = Math.round((cur / TOTAL) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressPct').textContent = pct + '%';
+      document.getElementById('progressLabel').textContent = `Section ${cur} of ${TOTAL}`;
+    }
+
+    function show(n) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-' + n).classList.add('active');
+      cur = n; updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startForm() { show(1); }
+    function nextSection() { if (cur < TOTAL) show(cur + 1); }
+    function prevSection() { show(cur > 1 ? cur - 1 : 0); }
+
+    async function submitForm() {
+      const btn = document.getElementById('submitBtn');
+      const err = document.getElementById('errorMsg');
+      btn.disabled = true; btn.textContent = 'Sending…'; err.style.display = 'none';
+      autosave();
+
+      const payload = { client_name: 'Phillip La Loans', ...data };
+      const body = {};
+      for (const [k, v] of Object.entries(payload)) body[k] = Array.isArray(v) ? v.join(', ') : v;
+
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 12000);
+
+      try {
+        const res = await fetch('https://formspree.io/f/xvzvnkay', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(body),
+          signal: ctrl.signal
+        });
+        clearTimeout(tid);
+        if (res.ok) {
+          localStorage.removeItem('phillip-laloans-disc');
+          document.getElementById('mainHeader').style.display = 'none';
+          document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+          document.getElementById('progressBar').classList.remove('visible');
+          document.getElementById('successScreen').style.display = 'block';
+        } else { throw new Error(); }
+      } catch {
+        clearTimeout(tid);
+        err.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Submit →';
+      }
+    }
+  </script>
+</body>
+</html>
