@@ -65,8 +65,7 @@ No client-side persistence — static site, no localStorage, sessionStorage, or 
 
 **Client:** Phillip La — Mortgage Loan Officer, Loan Factory, California  
 **Site:** philliplaloans.com (GitHub Pages, repo: Cal-Zentara/phillip-laloans)  
-**Version:** 1.5  
-**Status:** Step 1 done (SEO expansion complete). Step 2 mostly done — GMB updated, verification video pending from Phil. Step 3 planned.
+**Version:** see Version History section. Live state tracked in `STATUS.md`.
 
 ---
 
@@ -215,26 +214,7 @@ PhillipLoans/
 
 ## Pending Steps
 
-### Step 2 — GMB Cleanup (MOSTLY DONE — verification pending)
-Completed April 19, 2026:
-- ✅ Business name → `Phillip La — Mortgage Loan Officer`
-- ✅ Phone → `714-726-6333`
-- ✅ Description updated (personable rewrite — mentions Vietnamese, Loan Factory 226+ lenders, honest angle)
-- ✅ Website → `https://philliplaloans.com`
-- ✅ Asian-owned → Yes
-- ✅ Duplicate listing ("Phillip La — Mortgage Loan Officer") deleted by Phil
-- ⏳ Verification video — Phil records it live inside the Google Business Profile app (can't pre-record and upload — must be done in-app). Phil doing it himself tomorrow.
-- ⏳ Cover photo — replace family group shot with `pics/HeadShot.png` once verified
-
-**Note:** Verification is recorded live in the Google Business Profile app on Phil's phone. Cal cannot do this step — Phil must do it himself.
-
-### Step 3 — Realtor Outreach System (PLANNED)
-Elevasis workflow:
-- **Apify** — scrape Google Maps for California realtors by city
-- **AnyMailFinder** — enrich names + domains → get personal emails
-- **LLM** — personalize each email (name, city, brokerage)
-- **Instantly** — send cold email campaign
-- Phil starting from scratch — no existing tools
+Tracked in `STATUS.md`. Don't duplicate state here.
 
 ---
 
